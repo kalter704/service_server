@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+
+{% block main %}
+
+<h3>Регистрация</h3>
+{% if register %}
+		<div id="succes_mess">
+			Регистрация прошла успешно
+		</div>
+		<br>
+{% else %}
+		{% if is_empty_field %}
+			<div id="error_mess">
+				Заполните все поля
+			</div>
+		{% endif %}
+		{% if is_user_exist %}
+			<div id="error_mess">
+				Логин занят
+			</div>
+		{% endif %}
+		{% if is_wrong_pass %}
+			<div id="error_mess">
+				Пароли не совпадают
+			</div>
+		{% endif %}
+		
+		<form action="/register/" method="post" enctype="multipart/form-data">
+			{% csrf_token %}
+			{% for f in form.visible_fields %}
+				<div>
+					<label>{{ f.label }}</label>
+					<div>
+						<!--<input class="text" type="text" id="inputlogin" placeholder="Логин">-->
+						{{ f }}
+						{{ f.errors }}
+					</div>
+				</div>
+			{% endfor %}
+			<br>
+			<div>
+				<div>
+					<button type="submit" class="btn" style="width: 220px;">Зарегистрироваться</button>
+				</div>
+			</div>
+			
+		</form>
+	{% endif %}
+		
+{% endblock %}
