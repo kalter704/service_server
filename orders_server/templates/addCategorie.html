@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+
+{% block main %}
+
+<h3>Добавление категорий</h3>
+
+{% if add_successful %}
+	<div id="succes_mess">
+		Регистрация прошла успешно
+	</div>
+{% else %}
+	{% if is_categorie_exist %}
+		<div id="error_mess">
+			Такое блюдо уже есть
+		</div>
+	{% endif %}
+	{% if is_empty_field %}
+		<div id="error_mess">
+			Заполните все поля
+		</div>
+	{% endif %}
+{% endif %}
+<form action="/addcategorie/" method="post" enctype="multipart/form-data">
+	{% csrf_token %}
+	{% for f in form.visible_fields %}
+		<div>
+			<label>{{ f.label }}</label>
+			<div>
+				{{ f }}
+				{{ f.errors }}
+			</div>
+		</div>
+		<br>
+	{% endfor %}
+	<br>
+	<div>
+		<div>
+			<button type="submit" class="btn" style="width: 220px;">Добавить</button>
+		</div>
+	</div>
+</form>
+
+{% endblock %}

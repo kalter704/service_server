@@ -1,8 +1,14 @@
 # -*- coding: utf-8 -*-
 from orders.models import UserProfile
 from django.contrib.auth.models import User
+from models import Categorie
 
-def isEmptyField(username, email, password):
+def isEmptyField(temp):
+	if temp == '':
+		return True
+	return False
+
+def isEmptyFields(username, email, password):
 	if username == '':
 		return True
 	if email == '':
@@ -29,3 +35,9 @@ def createProfileUser(username, email, password):
 	up = UserProfile(title = username, user = u)
 	up.save()
 	
+def isCategorieExit(categorie):
+	try:
+		c = Categorie.objects.get(title = categorie)
+	except:
+		return False
+	return True

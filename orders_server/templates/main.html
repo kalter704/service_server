@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+
+{% block main %}
+
+<h3>Главное меню</h3>
+<a href="{% url 'allDishes' %}">Все блюда</a>
+<br><br>
+<a href="{% url 'addCategorie' %}">Добавить категорию</a>
+<br><br>
+<a href="{% url 'addDish' %}">Добавить блюдо</a>
+<br>
+
+{% endblock %}

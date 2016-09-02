@@ -1,42 +1,16 @@
 # -*- coding: utf-8 -*-
 from django.shortcuts import render, render_to_response, redirect
 from django.http import HttpResponse
-from forms import ProfileUser, FormAddCategorie
-from check_form import isEmptyField, isEmptyFields, checkPassword, isUserExist, createProfileUser, isCategorieExit
+from forms import ProfileUser
+from check_form import isEmptyField, checkPassword, isUserExist, createProfileUser
 
 # Create your views here.
 
 def index(request):
-	return render(request, 'main.html')
-
-def allDishes(request):
-	return HttpResponse("Hello, world. addDishes")
+	return render(request, 'main.html')	
 	
 def addCategorie(request):
-	form = FormAddCategorie
-	if request.POST:
-		categorie = request.POST.get('title')
-		img = request.POST.get('img')
-		is_empty_field = isEmptyField(categorie)
-		if not is_empty_field:
-			is_empty_field = isEmptyField(img)
-		is_categorie_exist = isCategorieExit(categorie)
-		if is_categorie_exist or is_empty_field:
-			context = {
-				'form': form,
-				'is_categorie_exist': is_categorie_exist,
-				'is_empty_field': is_empty_field
-			}
-		else:
-			context = {
-				'form': form,
-				'add_successful': True
-			}
-			#
-			# Функция добавления в БД
-			#
-		return render(request, 'addCategorie.html', context)
-	return render(request, 'addCategorie.html', {'form': form})
+	return HttpResponse("Hello, world. addCategorie")
 	
 def addDish(request):
 	return HttpResponse("Hello, world. addDish")
@@ -56,7 +30,7 @@ def register(request):
 		is_wrong_pass = False
 		is_user_exist = False
 		
-		if isEmptyFields(username, email, password):
+		if isEmptyField(username, email, password):
 			is_empty_field = True
 		if checkPassword(password, again_password):
 			is_wrong_pass = True
