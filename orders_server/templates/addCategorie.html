@@ -40,4 +40,46 @@
 	</div>
 </form>
 
+<br>
+<img id="img_prev" src="">
+
+<!--
+
+	
+	var type   = ['image', 'bmp', 'gif', 'jpg', 'jpeg', 'png']
+	-->
+
+<script>
+function readURL(input) {
+	var type   = ['image/bmp','image/gif','image/jpg','image/jpeg','image/png'];
+	var width  = 1024;
+	var height = 800;
+	var file   = input.files[0];
+	var prev   = document.getElementById('img_prev');
+	function errMsg(x) {
+		alert('Error ' + x);
+		prev.src = '';
+		input.value = '';
+	}
+	if (type.indexOf(file.type) == -1) {
+		errMsg('Type');
+		return false;
+	} else {
+		var reader = new FileReader();
+		reader.readAsDataURL(file);
+		reader.onload = function(e) {
+			var img = new Image();
+			img.src = e.target.result;
+			img.onload = function() {
+				if (this.width <= width && this.height <= height) {
+					prev.src = this.src;
+				} else {
+					errMsg('Width/Height');
+				}
+			};
+		};
+	}
+}
+</script>
+
 {% endblock %}

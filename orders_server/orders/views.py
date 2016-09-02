@@ -63,7 +63,6 @@ def register(request):
 		if isUserExist(username):
 			is_user_exist = True
 			
-			
 		if is_empty_field or is_wrong_pass or is_user_exist:
 			context = {
 				'form': form,
