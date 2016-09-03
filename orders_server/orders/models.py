@@ -13,12 +13,15 @@ class Categorie(models.Model):
 class Dish(models.Model):
 	title = models.CharField(max_length = 25)
 	categorie = models.ForeignKey(Categorie)
+	composition = models.TextField()
+	price = models.IntegerField()
+	weight = models.IntegerField()
 	img = models.ImageField(upload_to = 'pic/', null = True)
 
-class Ingredient(models.Model):
-	title = models.CharField(max_length = 25)
-	dish = models.ManyToManyField(Dish)
-	img = models.ImageField(upload_to = 'pic/', null = True)
+#class Ingredient(models.Model):
+#	title = models.CharField(max_length = 25)
+#	dish = models.ManyToManyField(Dish)
+#	img = models.ImageField(upload_to = 'pic/', null = True)
 	
 class Stock(models.Model):
 	title = models.CharField(max_length = 50)

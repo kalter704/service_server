@@ -41,3 +41,11 @@ def isCategorieExit(categorie):
 	except:
 		return False
 	return True
+
+def createCategorie(categorie, img):
+	if img == None:
+		img = 'Null'
+	from datetime import datetime
+	st = datetime.now().strftime("%y%m%d%H%M%S")
+	c = Categorie(title = categorie, update_code = st, img = img)
+	c.save()

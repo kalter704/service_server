@@ -3,57 +3,80 @@
 {% block main %}
 
 <h3>Добавление категорий</h3>
-
-{% if add_successful %}
-	<div id="succes_mess">
-		Регистрация прошла успешно
-	</div>
-{% else %}
-	{% if is_categorie_exist %}
-		<div id="error_mess">
-			Такое блюдо уже есть
-		</div>
-	{% endif %}
-	{% if is_empty_field %}
-		<div id="error_mess">
-			Заполните все поля
-		</div>
-	{% endif %}
-{% endif %}
-<form action="/addcategorie/" method="post" enctype="multipart/form-data">
-	{% csrf_token %}
-	{% for f in form.visible_fields %}
-		<div>
-			<label>{{ f.label }}</label>
-			<div>
-				{{ f }}
-				{{ f.errors }}
+<div>
+	<div class="div_blocks" style="width: 590px;">
+		{% if add_successful %}
+			<div id="succes_mess">
+				Регистрация прошла успешно
 			</div>
-		</div>
+		{% else %}
+			{% if is_categorie_exist %}
+				<div id="error_mess">
+					Такое блюдо уже есть
+				</div>
+			{% endif %}
+			{% if is_empty_field %}
+				<div id="error_mess">
+					Заполните все поля
+				</div>
+			{% endif %}
+		{% endif %}
+
+		<form action="/addcategorie/" method="post" enctype="multipart/form-data">
+			{% csrf_token %}
+			<div>
+				<label>{{ form.title.label }}</label> 
+				<div>{{ form.title }}</div>
+			</div>
+			<br>
+			<div>
+				<label>{{ form.img.label }}</label> 
+				<div>
+					<span>{{ form.img }}</span> 
+					<span id="img_size_mess">Размер картинки должен быть 540х375</span>
+				</div>
+			</div>
+			
+			<!--
+			{% for f in form.visible_fields %}
+				<div>
+					<label>{{ f.label }}</label>
+					<div>
+						{{ f }}
+						{{ f.errors }}
+					</div>
+				</div>
+				<br>
+			{% endfor %}
+			-->
+			<br>
+			<div>
+				<div>
+					<button type="submit" class="btn" style="width: 220px;">Добавить</button>
+				</div>
+			</div>
+		</form>
+
 		<br>
-	{% endfor %}
-	<br>
-	<div>
-		<div>
-			<button type="submit" class="btn" style="width: 220px;">Добавить</button>
-		</div>
+		<img id="img_prev" src="">
 	</div>
-</form>
-
-<br>
-<img id="img_prev" src="">
-
-<!--
-
-	
-	var type   = ['image', 'bmp', 'gif', 'jpg', 'jpeg', 'png']
-	-->
+		
+	<div class="div_blocks">
+		<div>Список категорий</div>
+		<br>
+		{% for item in categorie_list %}
+		<div class="cat_list">
+			<img  width='100' src="../uploads/{{ item.img }}"> <label class="label_align">{{ item.title }}</label>
+		</div>
+		{% endfor %}
+	</div>
+</div>
 
 <script>
 function readURL(input) {
 	var type   = ['image/bmp','image/gif','image/jpg','image/jpeg','image/png'];
-	var width  = 1024;
-	var height = 800;
+	var width  = 540;
+	var height = 375;
 	var file   = input.files[0];
 	var prev   = document.getElementById('img_prev');
 	function errMsg(x) {
@@ -62,7 +85,7 @@ function readURL(input) {
 		input.value = '';
 	}
 	if (type.indexOf(file.type) == -1) {
-		errMsg('Type');
+		errMsg('Не правильный формат!');
 		return false;
 	} else {
 		var reader = new FileReader();
@@ -71,10 +94,12 @@ function readURL(input) {
 			var img = new Image();
 			img.src = e.target.result;
 			img.onload = function() {
-				if (this.width <= width && this.height <= height) {
+				if (this.width == width && this.height == height) {
 					prev.src = this.src;
+					document.getElementById('img_size_mess').style.color='black';
 				} else {
-					errMsg('Width/Height');
+					document.getElementById('img_size_mess').style.color='red';
+					input.value = '';
 				}
 			};
 		};

@@ -2,7 +2,8 @@
 from django.shortcuts import render, render_to_response, redirect
 from django.http import HttpResponse
 from forms import ProfileUser, FormAddCategorie
-from check_form import isEmptyField, isEmptyFields, checkPassword, isUserExist, createProfileUser, isCategorieExit
+from check_form import isEmptyField, isEmptyFields, checkPassword, isUserExist, createProfileUser, isCategorieExit, createCategorie
+from models import Categorie
 
 # Create your views here.
 
@@ -13,30 +14,35 @@ def allDishes(request):
 	return HttpResponse("Hello, world. addDishes")
 	
 def addCategorie(request):
+	categorie_list = Categorie.objects.all()
 	form = FormAddCategorie
 	if request.POST:
 		categorie = request.POST.get('title')
-		img = request.POST.get('img')
+		img = request.FILES.get('img', None)
 		is_empty_field = isEmptyField(categorie)
 		if not is_empty_field:
-			is_empty_field = isEmptyField(img)
+			is_empty_field = isEmptyField(request.POST.get('img'))
 		is_categorie_exist = isCategorieExit(categorie)
+		
+		#form.title = categorie
+		#form.img = img
+		
 		if is_categorie_exist or is_empty_field:
 			context = {
+				'categorie_list': categorie_list,
 				'form': form,
 				'is_categorie_exist': is_categorie_exist,
 				'is_empty_field': is_empty_field
 			}
 		else:
 			context = {
+				'categorie_list': categorie_list,
 				'form': form,
 				'add_successful': True
 			}
-			#
-			# Функция добавления в БД
-			#
+			createCategorie(categorie, img)
 		return render(request, 'addCategorie.html', context)
-	return render(request, 'addCategorie.html', {'form': form})
+	return render(request, 'addCategorie.html', {'form': form, 'categorie_list': categorie_list})
 	
 def addDish(request):
 	return HttpResponse("Hello, world. addDish")

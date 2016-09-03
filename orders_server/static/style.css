@@ -11,3 +11,20 @@
 	margin-bottom: 15px;
 	margin-top: 15px;
 }
+
+.div_blocks {
+	display: inline-block;
+	top: 0px;
+	vertical-align:top;
+}
+
+.label_align {
+	vertical-align:top;
+}
+
+.cat_list {
+	padding: 2px;
+	margin-bottom: 5px;
+	border: 1px solid;
+	width: 250px;
+}
