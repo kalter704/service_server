@@ -1,9 +1,10 @@
 # -*- coding: utf-8 -*-
 from django.shortcuts import render, render_to_response, redirect
 from django.http import HttpResponse
-from forms import ProfileUser, FormAddCategorie
-from check_form import isEmptyField, isEmptyFields, checkPassword, isUserExist, createProfileUser, isCategorieExit, createCategorie
+from forms import ProfileUser, FormAddCategorie, FormAddDish
+from check_form import isEmptyField, isEmptyThreeFields, isEmptyFourFields, checkPassword, isUserExist, createProfileUser, isCategorieExit, createCategorie, isDishExit, createDish
 from models import Categorie
+from pprint import pprint
 
 # Create your views here.
 
@@ -24,7 +25,7 @@ def addCategorie(request):
 			is_empty_field = isEmptyField(request.POST.get('img'))
 		is_categorie_exist = isCategorieExit(categorie)
 		
-		#form.title = categorie
+		#form.fields['title'] = categorie
 		#form.img = img
 		
 		if is_categorie_exist or is_empty_field:
@@ -45,7 +46,44 @@ def addCategorie(request):
 	return render(request, 'addCategorie.html', {'form': form, 'categorie_list': categorie_list})
 	
 def addDish(request):
-	return HttpResponse("Hello, world. addDish")
+	categories = Categorie.objects.all()
+	choices = [('', '')]
+	for cat in categories:
+		choices.append([cat.title, cat.title])
+	form = FormAddDish()
+	form.fields['categorie'].choices = choices
+	if request.POST:
+		categorie = request.POST.get('categorie')
+		title = request.POST.get('title')
+		price = request.POST.get('price')
+		img = request.POST.get('img')
+		is_empty_field = isEmptyFourFields(categorie, title, price, img)
+		if is_empty_field:
+			context = {
+				'form': form,
+				'is_empty_field': is_empty_field
+			}
+			#return render(request, 'addDish.html', context)
+		else:
+			is_dish_exit = isDishExit(title) 
+			if is_dish_exit:
+				context = {
+					'form': form,
+					'is_dish_exit': is_dish_exit
+				}
+				#return render(request, 'addDish.html', context)
+			else:
+				context = {
+					'form': form,
+					'add_successful': True
+				}
+				weight = request.POST.get('weight')
+				composition = request.POST.get('composition')
+				img = request.FILES.get('img', None)
+				#pprint('create dish')
+				createDish(categorie, title, composition, price, weight, img)
+		return render(request, 'addDish.html', context)
+	return render(request, 'addDish.html', {'form': form})
 	
 def register(request):
 	form = ProfileUser
@@ -55,14 +93,14 @@ def register(request):
 		password = request.POST.get('password')
 		again_password = request.POST.get('again_password')
 		
-		#form.fields['username'].initial = username
-		#form.fields['email'].initial = email
+		#form.fields['username'] = username
+		#form.fields['email'] = email
 		
 		is_empty_field = False
 		is_wrong_pass = False
 		is_user_exist = False
 		
-		if isEmptyFields(username, email, password):
+		if isEmptyThreeFields(username, email, password):
 			is_empty_field = True
 		if checkPassword(password, again_password):
 			is_wrong_pass = True

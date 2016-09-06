@@ -2,7 +2,7 @@
 
 {% block main %}
 
-<h3>Добавление категорий</h3>
+<h3>Добавление блюда</h3>
 <table>
 	<tr>
 		<td>
@@ -11,7 +11,7 @@
 					Регистрация прошла успешно
 				</div>
 			{% else %}
-				{% if is_categorie_exist %}
+				{% if is_dish_exit %}
 					<div id="error_mess">
 						Такое блюдо уже есть
 					</div>
@@ -23,33 +23,40 @@
 				{% endif %}
 			{% endif %}
 
-			<form action="/addcategorie/" method="post" enctype="multipart/form-data">
+			<form action="/adddish/" method="post" enctype="multipart/form-data">
 				{% csrf_token %}
 				<div>
+					<label>{{ form.categorie.label }}</label> 
+					<div>{{ form.categorie }} *</div>
+				</div>
+				<br>
+				<div>
 					<label>{{ form.title.label }}</label> 
-					<div>{{ form.title }}</div>
+					<div>{{ form.title }} *</div>
+				</div>
+				<br>
+				<div>
+					<label>{{ form.composition.label }}</label> 
+					<div>{{ form.composition }}</div>
+				</div>
+				<br>
+				<div>
+					<label>{{ form.weight.label }}</label> 
+					<span>{{ form.weight }} в граммах </span>
+				</div>
+				<br>
+				<div>
+					<label>{{ form.price.label }}</label> 
+					<span>{{ form.price }}*</span>
 				</div>
 				<br>
 				<div>
 					<label>{{ form.img.label }}</label> 
 					<div>
-						<span>{{ form.img }}</span> 
-						<span id="img_size_mess">Размер картинки должен быть 540х375</span>
+						<span>{{ form.img }} *</span> 
+						<span id="img_size_mess">Размер картинки должен быть 300х300</span>
 					</div>
 				</div>
-				
-				<!--
-				{% for f in form.visible_fields %}
-					<div>
-						<label>{{ f.label }}</label>
-						<div>
-							{{ f }}
-							{{ f.errors }}
-						</div>
-					</div>
-					<br>
-				{% endfor %}
-				-->
 				<br>
 				<div>
 					<div>
@@ -70,8 +77,8 @@
 <script>
 function readURL(input) {
 	var type   = ['image/bmp','image/gif','image/jpg','image/jpeg','image/png'];
-	var width  = 540;
-	var height = 375;
+	var width  = 300;
+	var height = 300;
 	var file   = input.files[0];
 	var prev   = document.getElementById('img_prev');
 	function errMsg(x) {

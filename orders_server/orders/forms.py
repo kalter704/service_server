@@ -20,3 +20,7 @@ class FormAddDish(forms.Form):
 	price = forms.IntegerField(label = 'Цена', widget = forms.NumberInput(attrs = {'class': 'form-control'}))
 	img = forms.ImageField(label = 'Картинка', widget = forms.ClearableFileInput(attrs = {'class': 'form-control', 'onchange': 'readURL(this)'}))
 	
+	#def __init__(self, custom_choices=None, *args, **kwargs):
+	#	super(FormAddDish, self).__init__(*args, **kwargs)
+	#	if custom_choices:
+	#		self.fields['categorie'].choices = custom_choices
