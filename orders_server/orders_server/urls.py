@@ -16,7 +16,7 @@ Including another URLconf
 """
 from django.conf.urls import include, url
 from django.contrib import admin
-from orders.views import index, addCategorie, addDish, register, allDishes
+from orders.views import index, addCategorie, addDish, register, allDishes, changeDish
 
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 from django.conf.urls.static import static
@@ -28,6 +28,7 @@ urlpatterns = [
 	url(r'^alldishes/', allDishes, name='allDishes'),
 	url(r'^addcategorie/', addCategorie, name='addCategorie'),
 	url(r'^adddish/', addDish, name='addDish'),
+	url(r'^changedish/', changeDish, name='changeDish'),
 	
 
 	#url(r'^$', include('orders.urls')), 

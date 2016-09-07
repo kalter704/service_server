@@ -7,12 +7,12 @@
 	<div class="div_blocks" style="width: 590px;">
 		{% if add_successful %}
 			<div id="succes_mess">
-				Регистрация прошла успешно
+				Блюдо успешно добавлено
 			</div>
 		{% else %}
 			{% if is_categorie_exist %}
 				<div id="error_mess">
-					Такое блюдо уже есть
+					Такая категория уже есть
 				</div>
 			{% endif %}
 			{% if is_empty_field %}

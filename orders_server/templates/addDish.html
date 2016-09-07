@@ -8,7 +8,7 @@
 		<td>
 			{% if add_successful %}
 				<div id="succes_mess">
-					Регистрация прошла успешно
+					Блюдо успешно добавлено
 				</div>
 			{% else %}
 				{% if is_dish_exit %}
@@ -18,7 +18,7 @@
 				{% endif %}
 				{% if is_empty_field %}
 					<div id="error_mess">
-						Заполните все поля
+						Заполните поля, помеченные звездочкой
 					</div>
 				{% endif %}
 			{% endif %}

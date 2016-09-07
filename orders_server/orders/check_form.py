@@ -42,19 +42,29 @@ def isUserExist(username):
 		is_exist = False
 	return  is_exist
 	
-def isCategorieExit(categorie):
+def isCategorieExist(categorie):
 	try:
 		c = Categorie.objects.get(title = categorie)
 	except:
 		return False
 	return True
 
-def isDishExit(dish):
+def isDishExist(dish):
 	try:
 		d = Dish.objects.get(title = dish)
 	except:
 		return False
 	return True
+
+def isDishExist2(d_id, dish):
+	try:
+		d = Dish.objects.get(title = dish)
+	except:
+		return False
+	if d_id == d.id:
+		return False
+	else:
+		return True
 
 def createProfileUser(username, email, password):
 	u = User.objects.create_user(username, email, password)
