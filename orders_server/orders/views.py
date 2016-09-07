@@ -3,7 +3,7 @@ from django.shortcuts import render, render_to_response, redirect
 from django.http import HttpResponse
 from forms import ProfileUser, FormAddCategorie, FormAddDish
 from check_form import isEmptyField, isEmptyThreeFields, isEmptyFourFields, checkPassword, isUserExist, createProfileUser, isCategorieExit, createCategorie, isDishExit, createDish
-from models import Categorie
+from models import Categorie, Dish
 from pprint import pprint
 
 # Create your views here.
@@ -12,7 +12,18 @@ def index(request):
 	return render(request, 'main.html')
 
 def allDishes(request):
-	return HttpResponse("Hello, world. addDishes")
+	categorie_list = Categorie.objects.all()
+	context = {
+		'categorie_list': categorie_list
+	}
+	categorie = request.GET.get('categorie')
+	if categorie != None:
+		dish_list = Dish.objects.filter(categorie__title=categorie,)
+		context.update({
+			'categorie': categorie,
+			'dish_list': dish_list
+		})
+	return render(request, 'allDishes.html', context)
 	
 def addCategorie(request):
 	categorie_list = Categorie.objects.all()

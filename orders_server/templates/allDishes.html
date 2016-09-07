@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+
+{% block main %}
+
+<h3>Все блюда</h3>
+<div>
+	<div class="div_blocks">
+		<div>Список категорий:</div>
+		<br>
+		{% for c_item in categorie_list %}
+			<a href="?categorie={{ c_item.title }}">
+			<div class="cat_list">
+				<img  class="img_align" width='100' src="../uploads/{{ c_item.img }}"> <label class="label_align">{{ c_item.title }}</label>
+			</div>
+			</a>
+		{% endfor %}
+	</div>
+	<div class="div_blocks">
+		<div>Список блюд из категории {{ categorie }}:</div>
+		<br>
+		{% for d_item in dish_list %}
+			<div class="dish_list">
+				<div class="div_blocks">
+					<img width="100px" src="../uploads/{{ d_item.img }}" >
+				</div>
+				<div class="div_blocks"> 
+					<label class="label_align"><h4 class="h4_text">{{ d_item.title }}</h4></label>
+					<div class="composition">
+						<div>Состав:</div>
+						<div class="composition_text">{{ d_item.composition }}</div>
+					</div>
+					<div><span>Вес:</span><span>{{ d_item.weight }}</span></div>
+					<div><span>Цена:</span><span>{{ d_item.price }}</span></div>
+				</div>
+			</div>
+		{% endfor %}
+	</div>
+</div>
+
+{% endblock %}
